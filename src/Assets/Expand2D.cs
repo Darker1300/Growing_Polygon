@@ -39,11 +39,21 @@ public class Expand2D : MonoBehaviour
             }
 
             Vector2 localMouse = transform.InverseTransformPoint(worldMouse);
-            edgePoints[target] += (localMouse - edgePoints[target]).normalized * Time.deltaTime * GrowMultiplier;
+            Vector2 dir = (localMouse - edgePoints[target]).normalized;
+
+            edgePoints[target] += dir * Time.deltaTime * GrowMultiplier;
 
             if (IsEdgeWithinDistanceThreshold(0.3f, near, far))
-                JoinEdge(near, far);
+            {
+                dir = (edgePoints[far] - edgePoints[near]).normalized;
+                edgePoints[target] += dir * Time.deltaTime * GrowMultiplier;
+                //JoinEdge(near, far);
+            }
 
+            if (IsEdgeWithinDistanceThreshold(0.25f, near, far))
+            {
+                JoinEdge(near, far);
+            }
             polygonCol.SetPath(0, edgePoints.ToArray());
         }
     }

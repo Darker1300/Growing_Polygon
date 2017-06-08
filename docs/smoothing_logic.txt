@@ -1,0 +1,8 @@
+Smoothing:
+for each edges
+	dotp it|prev
+		> thres  (-1|0)		 0.9
+			delete, readd 
+				
+		
+	
